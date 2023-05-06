@@ -7,7 +7,7 @@ form.addEventListener('submit', onFormSubmit);
 form.addEventListener('input', throttle(onInputData, 500));
 populateTextarea();
 
-const formData = {};
+let formData = {};
 
 function onInputData(evt) {
   formData[evt.target.name] = evt.target.value;
@@ -16,9 +16,13 @@ function onInputData(evt) {
 
 function onFormSubmit(evt) {
   evt.preventDefault();
+  if (form.email.value === '' || form.message.value === '') {
+    return alert('Please fill in all the fields!');
+  }
   evt.currentTarget.reset();
   localStorage.removeItem(LOCAL_KEY);
   console.log(formData);
+  formData = {};
 }
 
 function populateTextarea() {
@@ -35,9 +39,3 @@ function populateTextarea() {
     }
   }
 }
-
-//   if (parsedData) {
-//     const { message, email } = parsedData;
-//     form.message.value = message;
-//     form.email.value = email;
-//   }
